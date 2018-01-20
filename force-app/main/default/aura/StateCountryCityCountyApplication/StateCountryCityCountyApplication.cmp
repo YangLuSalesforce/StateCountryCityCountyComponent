@@ -1,0 +1,41 @@
+<aura:component controller="StateCountryCityCountyController" implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="countries" type="Country__c[]"/>
+    <aura:attribute name="states" type="State__c[]"/>
+    <aura:attribute name="cities" type="City__c[]"/>
+    <aura:attribute name="counties" type="County__c[]"/>
+
+    <!-- Load list of Countries from database -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <lightning:card title="Select a Location">
+        <div class="slds-p-horizontal_medium">
+            <lightning:select aura:id="selectCountry" label="Country" required="false"
+                              onchange="{!c.updateStates}">
+                <aura:iteration items="{!v.countries}" var="country">
+                    <option value="{!country.Id}" text="{!country.Name}"></option>
+                </aura:iteration>
+            </lightning:select>
+            
+            <lightning:select aura:id="selectState" label="State" required="false"
+                              onchange="{!c.updateCities}">
+                <aura:iteration items="{!v.states}" var="state">
+                    <option value="{!state.Id}" text="{!state.Name}"></option>
+                </aura:iteration>
+            </lightning:select>
+            
+            <lightning:select aura:id="selectCounty" label="County" required="false"
+                              readonly="true">
+                <aura:iteration items="{!v.counties}" var="county">
+                    <option value="{!county.Id}" text="{!county.Name}"></option>
+                </aura:iteration>
+            </lightning:select>
+            
+            <lightning:select aura:id="selectCity" label="City" required="false"
+                              onchange="{!c.updateCounty}">
+                <aura:iteration items="{!v.cities}" var="city">
+                    <option value="{!city.County__c}" text="{!city.Name}"></option>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+    </lightning:card>
+</aura:component>
